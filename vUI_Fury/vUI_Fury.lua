@@ -1,5 +1,10 @@
 local AddOn = ...
-local vUI, GUI, Language, Media, Settings = vUIGlobal:get()
+
+if (not vUIGlobal) then
+	return
+end
+
+local vUI, GUI, Language, Assets, Settings = vUIGlobal:get()
 
 local Fury = vUI:NewPlugin(AddOn)
 
@@ -52,7 +57,7 @@ function Fury:OnEvent()
 		end
 	end
 	
-	if (self.HasWhirlwind and(not HasWhirlwind)) then
+	if (self.HasWhirlwind and (not HasWhirlwind)) then
 		for i = 1, 2 do
 			self.Whirlwind[i]:SetValue(0)
 		end
@@ -64,29 +69,29 @@ end
 function Fury:CreateBars()
 	-- Enrage bar
 	self.EnrageBar = CreateFrame("StatusBar", nil, UIParent)
-	self.EnrageBar:SetStatusBarTexture(Media:GetTexture(Settings["ui-widget-texture"]))
-	self.EnrageBar:SetStatusBarColorHex("E0392B")
-	self.EnrageBar:SetScaledSize(Settings["unitframes-player-width"] - 2, 10)
-	self.EnrageBar:SetScaledPoint("BOTTOM", vUI.UnitFrames["player"], "TOP", 0, 0)
+	self.EnrageBar:SetStatusBarTexture(Assets:GetTexture(Settings["ui-widget-texture"]))
+	self.EnrageBar:SetStatusBarColor(vUI:HexToRGB("E0392B"))
+	self.EnrageBar:SetSize(Settings["unitframes-player-width"] - 2, 10)
+	self.EnrageBar:SetPoint("BOTTOM", vUI.UnitFrames["player"], "TOP", 0, 0)
 	self.EnrageBar:SetMinMaxValues(0, 1)
 	self.EnrageBar:SetValue(0)
 	
 	self.EnrageBar.BG = self.EnrageBar:CreateTexture(nil, "ARTWORK")
 	self.EnrageBar.BG:SetAllPoints(self.EnrageBar)
-	self.EnrageBar.BG:SetTexture(Media:GetTexture(Settings["ui-widget-texture"]))
-	self.EnrageBar.BG:SetVertexColorHex("E0392B")
+	self.EnrageBar.BG:SetTexture(Assets:GetTexture(Settings["ui-widget-texture"]))
+	self.EnrageBar.BG:SetVertexColor(vUI:HexToRGB("E0392B"))
 	self.EnrageBar.BG:SetAlpha(0.2)
 	
 	self.EnrageBar.BG2 = self.EnrageBar:CreateTexture(nil, "BORDER")
-	self.EnrageBar.BG2:SetScaledPoint("TOPLEFT", self.EnrageBar, -1, 1)
-	self.EnrageBar.BG2:SetScaledPoint("BOTTOMRIGHT", self.EnrageBar, 1, -1)
-	self.EnrageBar.BG2:SetTexture(Media:GetTexture("Blank"))
+	self.EnrageBar.BG2:SetPoint("TOPLEFT", self.EnrageBar, -1, 1)
+	self.EnrageBar.BG2:SetPoint("BOTTOMRIGHT", self.EnrageBar, 1, -1)
+	self.EnrageBar.BG2:SetTexture(Assets:GetTexture("Blank"))
 	self.EnrageBar.BG2:SetVertexColor(0, 0, 0)
 	
 	-- Whirlwind bars
 	self.Whirlwind = CreateFrame("Frame", nil, self)
-	self.Whirlwind:SetScaledPoint("BOTTOMLEFT", self.EnrageBar, "TOPLEFT", -1, 0)
-	self.Whirlwind:SetScaledSize(Settings["unitframes-player-width"], 12)
+	self.Whirlwind:SetPoint("BOTTOMLEFT", self.EnrageBar, "TOPLEFT", -1, 0)
+	self.Whirlwind:SetSize(Settings["unitframes-player-width"], 12)
 	self.Whirlwind:SetBackdrop(vUI.Backdrop)
 	self.Whirlwind:SetBackdropColor(0, 0, 0)
 	self.Whirlwind:SetBackdropBorderColor(0, 0, 0)
@@ -95,24 +100,24 @@ function Fury:CreateBars()
 	
 	for i = 1, 2 do
 		self.Whirlwind[i] = CreateFrame("StatusBar", nil, self.Whirlwind)
-		self.Whirlwind[i]:SetScaledSize(Width, 10)
-		self.Whirlwind[i]:SetStatusBarTexture(Media:GetTexture(Settings["ui-widget-texture"]))
-		self.Whirlwind[i]:SetStatusBarColorHex("dcb266")
+		self.Whirlwind[i]:SetSize(Width, 10)
+		self.Whirlwind[i]:SetStatusBarTexture(Assets:GetTexture(Settings["ui-widget-texture"]))
+		self.Whirlwind[i]:SetStatusBarColor(vUI:HexToRGB("DCB266"))
 		self.Whirlwind[i]:SetMinMaxValues(0, 1)
 		self.Whirlwind[i]:SetValue(0)
 		
 		self.Whirlwind[i].bg = self.Whirlwind:CreateTexture(nil, "BORDER")
 		self.Whirlwind[i].bg:SetAllPoints(self.Whirlwind[i])
-		self.Whirlwind[i].bg:SetTexture(Media:GetTexture(Settings["ui-widget-texture"]))
-		self.Whirlwind[i].bg:SetVertexColorHex("dcb266")
+		self.Whirlwind[i].bg:SetTexture(Assets:GetTexture(Settings["ui-widget-texture"]))
+		self.Whirlwind[i].bg:SetVertexColor(vUI:HexToRGB("DCB266"))
 		self.Whirlwind[i].bg:SetAlpha(0.3)
 		
 		if (i == 1) then
-			self.Whirlwind[i]:SetScaledPoint("LEFT", self.Whirlwind, 1, 0)
-			self.Whirlwind[i]:SetScaledWidth(Width)
+			self.Whirlwind[i]:SetPoint("LEFT", self.Whirlwind, 1, 0)
+			self.Whirlwind[i]:SetWidth(Width)
 		else
-			self.Whirlwind[i]:SetScaledPoint("TOPLEFT", self.Whirlwind[i-1], "TOPRIGHT", 1, 0)
-			self.Whirlwind[i]:SetScaledWidth(Width  - 1)
+			self.Whirlwind[i]:SetPoint("TOPLEFT", self.Whirlwind[i-1], "TOPRIGHT", 1, 0)
+			self.Whirlwind[i]:SetWidth(Width  - 1)
 		end
 	end
 end
